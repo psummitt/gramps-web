@@ -63,6 +63,9 @@ The documentation of Gramps Web is hosted at [www.grampsweb.org](https://www.gra
 
 We'd love your feedback and contributions! Star this repository, fork it, and join us in making family history more accessible to everyone. Check out the [contribution guidelines](https://github.com/gramps-project/gramps-web/blob/main/CONTRIBUTING.md) to get started.
 
+## Build for a subdirectory
+
+To serve the app at `/gramps/`, build it with `BASE_DIR=/gramps npm run build`. The Nginx configuration used by the provided Docker image maps `/gramps/` to the contents of `dist/`; for another web server, map the `/gramps/` URL path to those files and configure its SPA fallback to serve `index.html` for app routes.
 
 ## Reporting issues
 
@@ -71,4 +74,3 @@ Note that this GitHub repository contains the source code of the Gramps Web user
 ## Roadmap
 
 Gramps Web does not follow a fixed-date roadmap. However, you can explore prioritized feature requests and ongoing development efforts via our [development board](https://github.com/orgs/gramps-project/projects/1/views/1). This board provides an up-to-date view of what the developers are working on and what's coming next. Note that the roadmap reflects the current priorities of existing developers, not a restriction on what can be contributed.
-

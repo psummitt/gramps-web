@@ -19,6 +19,8 @@ import {
 import {fireEvent} from '../util.js'
 import {GrampsjsAppStateMixin} from '../mixins/GrampsjsAppStateMixin.js'
 
+const BASE_DIR = ''
+
 class GrampsjsLogin extends GrampsjsAppStateMixin(LitElement) {
   static get styles() {
     return [
@@ -451,7 +453,7 @@ class GrampsjsLogin extends GrampsjsAppStateMixin(LitElement) {
         this._loggingIn = false
         this._showError(res.error)
       } else {
-        document.location.href = '/'
+        document.location.href = `${BASE_DIR}/`
       }
     })
   }

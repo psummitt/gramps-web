@@ -674,7 +674,7 @@ export class GrampsJs extends LitElement {
 
   // eslint-disable-next-line class-methods-use-this
   _firstRunDone() {
-    document.location.href = '/'
+    document.location.href = `${BASE_DIR}/`
   }
 
   _handleTreeCreated() {
@@ -1004,22 +1004,17 @@ export class GrampsJs extends LitElement {
 
     if (path === '/' || path === `${BASE_DIR}/`) {
       this._updateAppState({path: {page: 'home', pageId: '', pageId2: ''}})
-    } else if (BASE_DIR === '') {
-      const pathId = path.slice(1)
-      const page = pathId.split('/')[0]
-      const pageId = pathId.split('/')[1]
-      const pageId2 = pathId.split('/')[2]
-      this._updateAppState({
-        path: {page, pageId: pageId ?? '', pageId2: pageId2 ?? ''},
-      })
-    } else if (path.split('/')[0] === BASE_DIR.split('/')[0]) {
-      const pathId = path.slice(1)
-      const page = pathId.split('/')[1]
-      const pageId = pathId.split('/')[2]
-      const pageId2 = pathId.split('/')[3]
-      this._updateAppState({
-        path: {page, pageId: pageId ?? '', pageId2: pageId2 ?? ''},
-      })
+    } else {
+      const pathId = BASE_DIR
+        ? path.startsWith(`${BASE_DIR}/`)
+          ? path.slice(BASE_DIR.length + 1)
+          : null
+        : path.slice(1)
+      if (pathId === null) {
+        return
+      }
+      const [page, pageId = '', pageId2 = ''] = pathId.split('/')
+      this._updateAppState({path: {page, pageId, pageId2}})
     }
 
     if (this.appState.screenSize === 'small') {

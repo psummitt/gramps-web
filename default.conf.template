@@ -9,6 +9,15 @@ server {
 
   root   /usr/share/nginx/html;
 
+  location = /gramps {
+      return 301 /gramps/;
+  }
+
+  location /gramps/ {
+      rewrite ^/gramps/(.*)$ /$1 break;
+      try_files $uri $uri/ $uri.html /index.html;
+  }
+
   location / {
       try_files $uri $uri/ $uri.html /index.html;
   }

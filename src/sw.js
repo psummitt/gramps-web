@@ -4,6 +4,8 @@ import {CacheFirst, NetworkFirst} from 'workbox-strategies'
 import {CacheableResponsePlugin} from 'workbox-cacheable-response'
 import {ExpirationPlugin} from 'workbox-expiration'
 
+const configPath = new URL('config.js', self.registration.scope).pathname
+
 // Skip waiting immediately so the new SW activates without user interaction.
 // clients.claim() fires controllerchange on all open tabs → PwaUpdateAvailable
 // reloads them, recovering any tab stuck on a broken page.
@@ -54,7 +56,7 @@ registerRoute(
 
 // config.js is replaced post-build, so serve it fresh with an offline fallback.
 registerRoute(
-  ({url}) => url.pathname === '/config.js',
+  ({url}) => url.pathname === configPath,
   new NetworkFirst({
     cacheName: 'gramps-config-v1',
     plugins: [new CacheableResponsePlugin({statuses: [200]})],

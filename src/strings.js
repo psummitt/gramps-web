@@ -59,7 +59,7 @@ const frontendStrings = {}
 
 export async function getFrontendStrings(lang) {
   if (!(lang in frontendStrings) && frontendLanguages.includes(lang)) {
-    const resp = await fetch(`/lang/${lang}.json`)
+    const resp = await fetch(`lang/${lang}.json`)
     try {
       frontendStrings[lang] = await resp.json()
       // eslint-disable-next-line no-empty

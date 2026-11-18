@@ -1,5 +1,7 @@
 import {__APIHOST__, ACCESS_TOKEN_EXPIRY_MS} from './api.js'
 
+const BASE_DIR = ''
+
 function storeTokens(data) {
   const expiresAt = Date.now() + ACCESS_TOKEN_EXPIRY_MS
   localStorage.setItem('access_token', data.access_token)
@@ -21,7 +23,7 @@ export async function handleOIDCCallback(errorCallback) {
 
     if (!code) {
       errorCallback('OIDC authentication failed - no authorization code')
-      window.location.href = '/'
+      window.location.href = `${BASE_DIR}/`
       return
     }
 
@@ -49,11 +51,11 @@ export async function handleOIDCCallback(errorCallback) {
     storeTokens(data)
 
     requestAnimationFrame(() => {
-      window.location.href = data.frontend_url || '/'
+      window.location.href = data.frontend_url || `${BASE_DIR}/`
     })
   } catch (error) {
     errorCallback(`OIDC authentication failed: ${error.message}`)
-    window.location.href = '/'
+    window.location.href = `${BASE_DIR}/`
   }
 }
 
@@ -70,9 +72,11 @@ export function takeReturnPath() {
     const path = sessionStorage.getItem(OIDC_RETURN_PATH_KEY)
     sessionStorage.removeItem(OIDC_RETURN_PATH_KEY)
     // only paths on this site
-    return path?.startsWith('/') && !path.startsWith('//') ? path : '/'
+    return path?.startsWith('/') && !path.startsWith('//')
+      ? path
+      : `${BASE_DIR}/`
   } catch {
-    return '/'
+    return `${BASE_DIR}/`
   }
 }
 
@@ -93,7 +97,7 @@ export async function completeLink(appState, linkCode, error) {
   } catch {
     // the settings page then just shows the current state
   }
-  window.location.href = '/settings/user'
+  window.location.href = `${BASE_DIR}/settings/user`
 }
 
 // The code is single use, so the exchange must not run twice.
@@ -157,6 +161,6 @@ export async function handleOIDCComplete(errorCallback, appState) {
     })
   } catch (error) {
     errorCallback(`OIDC authentication failed: ${error.message}`)
-    window.location.href = '/'
+    window.location.href = `${BASE_DIR}/`
   }
 }
